@@ -23,7 +23,9 @@ public class Application {
 
         printReflectionInfo(RationalExpression.class);
 
+        getAnnotations(RationalExpression.class);
 
+        invokeProxy(rationalExpression);
 
     }
 
@@ -33,7 +35,7 @@ public class Application {
             method.setAccessible(true);
             try {
                 Object obj = method.invoke(expression);
-                System.out.println("Return from invoke method: " + obj);
+                System.out.println("Invoked private method: " + obj);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
@@ -48,10 +50,20 @@ public class Application {
             String type = field.getType().getName();
             int modifierInt = field.getModifiers();
             String modifier = Modifier.toString(modifierInt);
-            Annotation[] annotations = clazz.getAnnotations();
-            System.out.println("Field name: " + name + " ,type: " + type +
-                    " ,modifier: " + modifier + ",annotations: " + Arrays.toString(annotations));
+
+            System.out.println("Field name: " + name + " ,type: " + type + " ,modifier: " + modifier);
         }
+    }
+
+    private static void getAnnotations(final Class<?> type){
+        Method[] methods = type.getDeclaredMethods();
+        List<Annotation> annotations = new ArrayList<>();
+        for(Method method:methods){
+            Annotation[] methodAnnotations = method.getAnnotations();
+            List<Annotation> methodAnnotationList = Arrays.asList(methodAnnotations);
+            annotations.addAll(methodAnnotationList);
+        }
+        System.out.println("Annotations:" + annotations);
     }
 
     private static List<Method> getMethodsAnnotatedWith(final Class<?> type, final Class<? extends Annotation> annotation) {
@@ -67,6 +79,20 @@ public class Application {
             klass = klass.getSuperclass();
         }
         return methods;
+    }
+
+    private static void invokeProxy(RationalExpression expression){
+        Class clazz = RationalExpression.class;
+        IRationalExpression proxyInstance = (IRationalExpression) java.lang.reflect.Proxy.newProxyInstance(
+                clazz.getClassLoader(),
+                clazz.getInterfaces(),
+                new danyliuk.mykola.Proxy(expression));
+        try {
+            Polynomial polynomial = new Polynomial(new double[]{6.6});
+            proxyInstance.setNumerator(polynomial);
+        } catch (Exception e){
+            System.out.println("Cause exception: " + e.getCause().getMessage());
+        }
     }
 
 }

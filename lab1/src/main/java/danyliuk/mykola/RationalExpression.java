@@ -3,7 +3,7 @@ package danyliuk.mykola;
 /**
  * @author Mykola Danyliuk
  */
-public class RationalExpression {
+public class RationalExpression implements IRationalExpression {
 
     private Polynomial numerator; // чисельник
     private Polynomial denominator; // знаменник
@@ -13,22 +13,18 @@ public class RationalExpression {
         this.denominator = denominator;
     }
 
-    @PublicAccess
     public Polynomial getNumerator() {
         return numerator;
     }
 
-    @PrivateAccess
     public void setNumerator(Polynomial numerator) {
         this.numerator = numerator;
     }
 
-    @PublicAccess
     public Polynomial getDenominator() {
         return denominator;
     }
 
-    @PrivateAccess
     public void setDenominator(Polynomial denominator) {
         this.denominator = denominator;
     }
@@ -43,7 +39,7 @@ public class RationalExpression {
     }
 
     @PublicAccess
-    private String getPrivateInfo(){
+    private String info(){
         return "Private Info.";
     }
 }
