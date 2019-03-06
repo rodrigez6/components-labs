@@ -1,4 +1,4 @@
-package danyliuk.mykola;
+package danyliuk.mykola.model;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

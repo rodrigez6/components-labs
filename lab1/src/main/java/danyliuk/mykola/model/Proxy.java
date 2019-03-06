@@ -1,4 +1,4 @@
-package danyliuk.mykola;
+package danyliuk.mykola.model;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -17,7 +17,7 @@ public class Proxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if(method.getName().startsWith("get")){
-            return method.invoke(obj,method);
+            return method.invoke(obj);
         }
         throw new IllegalAccessException("Not allowed");
     }

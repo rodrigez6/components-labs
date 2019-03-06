@@ -1,5 +1,7 @@
 package danyliuk.mykola;
 
+import danyliuk.mykola.model.*;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -29,8 +31,8 @@ public class Application {
 
     }
 
-    private static void invokeAnnotatedMethods(RationalExpression expression){
-        List<Method> methods = getMethodsAnnotatedWith(RationalExpression.class,PublicAccess.class);
+    public static boolean invokeAnnotatedMethods(RationalExpression expression){
+        List<Method> methods = getMethodsAnnotatedWith(RationalExpression.class, PublicAccess.class);
         for(Method method:methods){
             method.setAccessible(true);
             try {
@@ -38,11 +40,13 @@ public class Application {
                 System.out.println("Invoked private method: " + obj);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
+                return false;
             }
         }
+        return true;
     }
 
-    private static void printReflectionInfo(Class clazz){
+    static void printReflectionInfo(Class clazz){
         Field[] fields = clazz.getDeclaredFields();
         for(Field field:fields){
             field.setAccessible(true);
@@ -81,18 +85,20 @@ public class Application {
         return methods;
     }
 
-    private static void invokeProxy(RationalExpression expression){
+    static boolean invokeProxy(RationalExpression expression){
         Class clazz = RationalExpression.class;
         IRationalExpression proxyInstance = (IRationalExpression) java.lang.reflect.Proxy.newProxyInstance(
                 clazz.getClassLoader(),
                 clazz.getInterfaces(),
-                new danyliuk.mykola.Proxy(expression));
+                new Proxy(expression));
         try {
             Polynomial polynomial = new Polynomial(new double[]{6.6});
             proxyInstance.setNumerator(polynomial);
         } catch (Exception e){
             System.out.println("Cause exception: " + e.getCause().getMessage());
+            return false;
         }
+        return true;
     }
 
 }
