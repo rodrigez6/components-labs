@@ -10,6 +10,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class Polynomial {
 
-    private double[] coefficients;
+    private int[] coefficients;
 
 }

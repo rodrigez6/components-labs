@@ -14,11 +14,11 @@ import java.util.List;
 /**
  * @author Mykola Danyliuk
  */
-public class Application {
+public class Application1 {
 
     public static void main(String[] args){
-        Polynomial polynomial1 = new Polynomial(new double[]{1.1,2.2});
-        Polynomial polynomial2 = new Polynomial(new double[]{3.3,4.4});
+        Polynomial polynomial1 = new Polynomial(new int[]{1, 5});
+        Polynomial polynomial2 = new Polynomial(new int[]{3, 2});
         RationalExpression rationalExpression = new RationalExpression(polynomial1,polynomial2);
 
         invokeAnnotatedMethods(rationalExpression);
@@ -92,7 +92,7 @@ public class Application {
                 clazz.getInterfaces(),
                 new Proxy(expression));
         try {
-            Polynomial polynomial = new Polynomial(new double[]{6.6});
+            Polynomial polynomial = new Polynomial(new int[]{1});
             proxyInstance.setNumerator(polynomial);
         } catch (Exception e){
             System.out.println("Cause exception: " + e.getCause().getMessage());

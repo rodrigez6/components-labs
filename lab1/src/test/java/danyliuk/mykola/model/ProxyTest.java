@@ -14,9 +14,9 @@ import java.lang.reflect.Method;
  */
 class ProxyTest {
 
-    private Polynomial polynomial1 = new Polynomial(new double[]{1.1, 2.2});
-    private Polynomial polynomial2 = new Polynomial(new double[]{3.3, 4.4});
-    private Polynomial polynomial3 = new Polynomial(new double[]{6.3, 4.6});
+    private Polynomial polynomial1 = new Polynomial(new int[]{1, 2});
+    private Polynomial polynomial2 = new Polynomial(new int[]{2, 6});
+    private Polynomial polynomial3 = new Polynomial(new int[]{3, 3});
     private RationalExpression rationalExpression = new RationalExpression(polynomial1, polynomial2);
     private Proxy proxy = new Proxy(rationalExpression);
     private Class<RationalExpression> clazz = RationalExpression.class;
