@@ -1,4 +1,4 @@
-package danyliuk.mykola.service;
+package danyliuk.mykola.controller;
 
 import danyliuk.mykola.model.RationalExpression;
 import danyliuk.mykola.view.ConsoleView;
@@ -6,37 +6,41 @@ import danyliuk.mykola.view.View;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Mykola Danyliuk
  */
-class RationalExpressionFormServiceImplTest {
+class RationalExpressionFormControllerTest {
 
-    private RationalExpressionFormService service;
     private View view;
+    private RationalExpressionFormController controller;
 
     @BeforeEach
     void setUp() {
         view = Mockito.mock(ConsoleView.class);
-        service = new RationalExpressionFormServiceImpl(view);
+        controller = new RationalExpressionFormController(view);
     }
 
     @Test
     void getRationalExpression1() {
         when(view.readInt()).thenReturn(1);
-        RationalExpression expression = service.getRationalExpression();
+        RationalExpression expression = controller.getRationalExpression();
         Assertions.assertNotNull(expression);
+        int[] denominatorCoefficients = expression.getDenominator().getCoefficients();
+        Assertions.assertEquals(denominatorCoefficients.length,1);
+        Assertions.assertEquals(denominatorCoefficients[0],1);
     }
 
     @Test
-    void getRationalExpression2(){
+    void getRationalExpression2() {
         when(view.readInt()).thenThrow(NumberFormatException.class);
         Assertions.assertThrows(NumberFormatException.class, () -> {
-            service.getRationalExpression();
+            controller.getRationalExpression();
         });
     }
 }
