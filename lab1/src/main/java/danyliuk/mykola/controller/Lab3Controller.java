@@ -7,11 +7,11 @@ import danyliuk.mykola.view.View;
 /**
  * @author Mykola Danyliuk
  */
-public class RationalExpressionFormController implements Controller {
+public class Lab3Controller implements Controller {
 
     private View view;
 
-    public RationalExpressionFormController(View view) {
+    public Lab3Controller(View view) {
         this.view = view;
     }
 
@@ -45,14 +45,24 @@ public class RationalExpressionFormController implements Controller {
 
     private int getCoefficientsSize() throws NumberFormatException {
         view.print("Enter size of coefficients array: ");
-        return view.readInt();
+        String input = view.read();
+        return parse(input);
     }
 
     // degree - степінь многочлена
 
     private int getCoefficient(int degree) throws NumberFormatException {
         view.print("Enter coefficient with degree #" + degree + " : ");
-        return view.readInt();
+        String input = view.read();
+        return parse(input);
+    }
+
+    private int parse(String s) throws NumberFormatException{
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e){
+            throw new NumberFormatException("Invalid integer: " + s);
+        }
     }
 
 }

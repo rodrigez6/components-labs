@@ -24,15 +24,4 @@ public class ConsoleView implements View{
         return scanner.next();
     }
 
-    @Override
-    public int readInt() throws NumberFormatException {
-        String input = null;
-        try {
-            input = read();
-            return Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException("Invalid integer: " + input);
-        }
-    }
-
 }

@@ -6,39 +6,38 @@ import danyliuk.mykola.view.View;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
  * @author Mykola Danyliuk
  */
-class RationalExpressionFormControllerTest {
+class Lab3ControllerTest {
 
     private View view;
-    private RationalExpressionFormController controller;
+    private Lab3Controller controller;
 
     @BeforeEach
     void setUp() {
         view = Mockito.mock(ConsoleView.class);
-        controller = new RationalExpressionFormController(view);
+        controller = new Lab3Controller(view);
     }
 
     @Test
     void getRationalExpression1() {
-        when(view.readInt()).thenReturn(1);
+        when(view.read()).thenReturn("1").thenReturn("2").thenReturn("3").thenReturn("11").thenReturn("12").thenReturn("13");
         RationalExpression expression = controller.getRationalExpression();
         Assertions.assertNotNull(expression);
-        int[] denominatorCoefficients = expression.getDenominator().getCoefficients();
-        Assertions.assertEquals(denominatorCoefficients.length,1);
-        Assertions.assertEquals(denominatorCoefficients[0],1);
+        int[] expected = new int[]{11,12,13};
+        int[] actual = expression.getDenominator().getCoefficients();
+        Assertions.assertArrayEquals(expected,actual);
+
     }
 
     @Test
     void getRationalExpression2() {
-        when(view.readInt()).thenThrow(NumberFormatException.class);
+        when(view.read()).thenReturn("t");
         Assertions.assertThrows(NumberFormatException.class, () -> {
             controller.getRationalExpression();
         });
